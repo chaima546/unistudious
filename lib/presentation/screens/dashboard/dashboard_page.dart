@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:unistudious/data/models/academy.dart';
+import '../../providers/academy_provider.dart';
 import '../../widgets/academy_card.dart';
 import '../../widgets/course_progress_card.dart';
 import '../../widgets/deadline_card.dart';
@@ -7,6 +9,9 @@ import '../../widgets/app_drawer.dart';
 
 class DashboardPage extends StatelessWidget {
   const DashboardPage({super.key});
+
+  // Instantiate the provider
+  static final AcademyProvider academyProvider = AcademyProvider();
 
   @override
   Widget build(BuildContext context) {
@@ -30,19 +35,37 @@ class DashboardPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Mes académies section
+            // Dynamic Academies Section
             _buildSectionTitle("Mes académies"),
             const SizedBox(height: 8),
             SizedBox(
               height: 150,
-              child: ListView(
-                scrollDirection: Axis.horizontal,
-                children: const [
-                  AcademyCard(name: 'Piuma', courseCount: 2),
-                  AcademyCard(name: 'Agency', courseCount: 1),
-                  AcademyCard(name: 'Lycée', courseCount: 3),
-                  SizedBox(width: 8), // Add some spacing at the end
-                ],
+              child: FutureBuilder<List<Academy>>(
+                future: academyProvider.getAcademies(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(child: CircularProgressIndicator());
+                  }
+
+                  if (snapshot.hasError) {
+                    return Center(child: Text('Error: ${snapshot.error}'));
+                  }
+
+                  final academies = snapshot.data ?? [];
+
+                  return ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: academies.length,
+                    itemBuilder: (context, index) {
+                      final academy = academies[index];
+                      return AcademyCard(
+                        name: academy.name,
+                        courseCount: academy.courseCount,
+                        onTap: () => _handleAcademyTap(context, academy),
+                      );
+                    },
+                  );
+                },
               ),
             ),
             const SizedBox(height: 24),
@@ -139,5 +162,9 @@ class DashboardPage extends StatelessWidget {
         color: Colors.deepPurple,
       ),
     );
+  }
+
+  void _handleAcademyTap(BuildContext context, Academy academy) {
+    // Implement navigation or action when an academy is tapped
   }
 }

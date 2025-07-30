@@ -6,54 +6,51 @@ class AcademyCard extends StatelessWidget {
   final VoidCallback? onTap;
 
   const AcademyCard({
-    super.key,
     required this.name,
     required this.courseCount,
     this.onTap,
+    super.key,
   });
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: onTap ?? () {}, // Par défaut, ne fait rien
+      onTap: onTap,
       child: Container(
-        width: 180,
+        width: 120,
         margin: const EdgeInsets.only(right: 12),
-        padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: Colors.deepPurple.shade50,
-          borderRadius: BorderRadius.circular(16),
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(12),
           boxShadow: [
             BoxShadow(
-              color: Colors.deepPurple.withOpacity(0.1),
-              blurRadius: 6,
-              offset: const Offset(0, 4),
+              color: Colors.grey.withOpacity(0.2),
+              spreadRadius: 1,
+              blurRadius: 5,
+              offset: const Offset(0, 2),
             ),
           ],
         ),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
-              name,
-              style: const TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-                color: Colors.deepPurple,
+            CircleAvatar(
+              radius: 30,
+              backgroundColor: Colors.deepPurple.withOpacity(0.1),
+              child: Text(
+                name.isNotEmpty ? name.substring(0, 1) : '?',
+                style: const TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.deepPurple,
+                ),
               ),
             ),
             const SizedBox(height: 8),
+            Text(name, style: const TextStyle(fontWeight: FontWeight.bold)),
             Text(
               '$courseCount cours',
-              style: const TextStyle(
-                fontSize: 14,
-                color: Colors.black54,
-              ),
-            ),
-            const Spacer(),
-            const Align(
-              alignment: Alignment.bottomRight,
-              child: Icon(Icons.arrow_forward_ios_rounded, size: 16, color: Colors.deepPurple),
+              style: TextStyle(color: Colors.grey[600], fontSize: 12),
             ),
           ],
         ),
