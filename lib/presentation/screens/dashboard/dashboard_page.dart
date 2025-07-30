@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import '../../widgets/academy_card.dart'; 
+import '../../widgets/academy_card.dart';
 import '../../widgets/course_progress_card.dart';
 import '../../widgets/deadline_card.dart';
 import '../../widgets/activity_feed_item.dart';
+import '../../widgets/app_drawer.dart';
 
 class DashboardPage extends StatelessWidget {
   const DashboardPage({super.key});
@@ -13,39 +14,24 @@ class DashboardPage extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Unistudious'),
         backgroundColor: Colors.deepPurple,
+        elevation: 0,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.notifications),
+            onPressed: () {
+              // Handle notification button press
+            },
+          ),
+        ],
       ),
-      drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: const [
-            UserAccountsDrawerHeader(
-              accountName: Text("Jean Dupont"),
-              accountEmail: Text("jean.dupont@example.com"),
-              currentAccountPicture: CircleAvatar(
-                child: Text("JD", style: TextStyle(fontSize: 24)),
-              ),
-              decoration: BoxDecoration(color: Colors.deepPurple),
-            ),
-            DrawerItem(icon: Icons.dashboard, title: 'Tableau de bord'),
-            DrawerItem(icon: Icons.book, title: 'Mes cours'),
-            DrawerItem(icon: Icons.calendar_today, title: 'Calendrier'),
-            DrawerItem(icon: Icons.people, title: 'Présences'),
-            DrawerItem(icon: Icons.group, title: 'Groupes'),
-            DrawerItem(icon: Icons.folder, title: 'Ressources'),
-            DrawerItem(icon: Icons.message, title: 'Messagerie'),
-            DrawerItem(icon: Icons.notifications, title: 'Notifications'),
-            DrawerItem(icon: Icons.settings, title: 'Paramètres'),
-            Divider(),
-            DrawerItem(icon: Icons.logout, title: 'Déconnexion'),
-          ],
-        ),
-      ),
+      drawer: const AppDrawer(),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text("Mes académies", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+            // Mes académies section
+            _buildSectionTitle("Mes académies"),
             const SizedBox(height: 8),
             SizedBox(
               height: 150,
@@ -55,12 +41,14 @@ class DashboardPage extends StatelessWidget {
                   AcademyCard(name: 'Piuma', courseCount: 2),
                   AcademyCard(name: 'Agency', courseCount: 1),
                   AcademyCard(name: 'Lycée', courseCount: 3),
+                  SizedBox(width: 8), // Add some spacing at the end
                 ],
               ),
             ),
             const SizedBox(height: 24),
 
-            const Text("Mes cours en cours", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+            // Mes cours en cours section
+            _buildSectionTitle("Mes cours en cours"),
             const SizedBox(height: 8),
             const CourseProgressCard(
               academyName: 'Piuma Academy',
@@ -69,6 +57,7 @@ class DashboardPage extends StatelessWidget {
               progress: 0.68,
               nextLesson: 'Intégrales de fonctions trigonométriques',
             ),
+            const SizedBox(height: 12),
             const CourseProgressCard(
               academyName: 'Agency Academy',
               courseName: 'Chimie Organique',
@@ -76,6 +65,7 @@ class DashboardPage extends StatelessWidget {
               progress: 0.42,
               nextLesson: 'Les alcènes et les alcynes',
             ),
+            const SizedBox(height: 12),
             const CourseProgressCard(
               academyName: 'Lycée Pasteur',
               courseName: 'Littérature Française',
@@ -85,7 +75,8 @@ class DashboardPage extends StatelessWidget {
             ),
             const SizedBox(height: 24),
 
-            const Text("Mes prochaines échéances", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+            // Mes prochaines échéances section
+            _buildSectionTitle("Mes prochaines échéances"),
             const SizedBox(height: 8),
             const DeadlineCard(
               title: 'Devoir de Calcul Intégral',
@@ -93,12 +84,14 @@ class DashboardPage extends StatelessWidget {
               academy: 'Piuma Academy',
               description: 'Exercices d\'intégration par parties',
             ),
+            const SizedBox(height: 12),
             const DeadlineCard(
               title: 'Présentation Chimie',
               dueDate: 'Dans 3 jours',
               academy: 'Agency Academy',
               description: 'Présentation sur les composés aromatiques',
             ),
+            const SizedBox(height: 12),
             const DeadlineCard(
               title: 'Dissertation Littérature',
               dueDate: 'Dans 7 jours',
@@ -107,7 +100,8 @@ class DashboardPage extends StatelessWidget {
             ),
             const SizedBox(height: 24),
 
-            const Text("Activité récente", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+            // Activité récente section
+            _buildSectionTitle("Activité récente"),
             const SizedBox(height: 8),
             const ActivityFeedItem(
               userInitials: 'TM',
@@ -115,32 +109,35 @@ class DashboardPage extends StatelessWidget {
               timeAgo: 'Il y a 1h',
               content: 'a posté dans le groupe Chimie Organique\n\nEst-ce que quelqu\'un a compris la réaction d\'estérification ? J\'ai du mal avec le mécanisme...',
             ),
+            const SizedBox(height: 12),
             const ActivityFeedItem(
               userInitials: 'PD',
               userName: 'Prof. Dubois',
               timeAgo: 'Il y a 3h',
               content: 'a ajouté une nouvelle ressource au cours Calcul Intégral\n\nCours_Integrales_Partie2.pdf',
             ),
+            const SizedBox(height: 24),
           ],
         ),
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          // Handle FAB press
+        },
+        backgroundColor: Colors.deepPurple,
+        child: const Icon(Icons.add),
+      ),
     );
   }
-}
 
-class DrawerItem extends StatelessWidget {
-  final IconData icon;
-  final String title;
-  const DrawerItem({required this.icon, required this.title, super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return ListTile(
-      leading: Icon(icon),
-      title: Text(title),
-      onTap: () {
-        // TODO: Ajouter navigation
-      },
+  Widget _buildSectionTitle(String title) {
+    return Text(
+      title,
+      style: const TextStyle(
+        fontSize: 18,
+        fontWeight: FontWeight.bold,
+        color: Colors.deepPurple,
+      ),
     );
   }
 }

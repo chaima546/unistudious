@@ -22,7 +22,6 @@ class _LoginPageState extends State<LoginPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            const FlutterLogo(size: 80),
             const SizedBox(height: 16),
 
             const Text(
@@ -30,9 +29,6 @@ class _LoginPageState extends State<LoginPage> {
               textAlign: TextAlign.center,
               style: TextStyle(fontSize: 16, color: Colors.grey),
             ),
-
-            const SizedBox(height: 24),
-
             TextFormField(
               decoration: const InputDecoration(
                 labelText: "Nom d'utilisateur",

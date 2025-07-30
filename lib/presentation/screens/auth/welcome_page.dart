@@ -15,8 +15,13 @@ class WelcomePage extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const FlutterLogo(size: 80),
+            
+              Image.asset(
+                'assets/images/logo.png',
+                height: 100,
+              ),
               const SizedBox(height: 20),
+
               const Icon(Icons.school, size: 150, color: Colors.deepPurple),
               const SizedBox(height: 20),
               const Text(
@@ -44,8 +49,8 @@ class WelcomePage extends StatelessWidget {
                 },
                 child: const Text(
                   'Créer un compte',
-                  style: TextStyle(fontSize: 16 ,color: Colors.white),
-                  ),
+                  style: TextStyle(fontSize: 16, color: Colors.white),
+                ),
               ),
               const SizedBox(height: 12),
               OutlinedButton(

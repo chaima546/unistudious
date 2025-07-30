@@ -20,9 +20,6 @@ class _SignUpPageState extends State<SignUpPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            const FlutterLogo(size: 80),
-            const SizedBox(height: 16),
-
             const Text(
               "Rejoignez Unistudious pour commencer votre parcours d'apprentissage",
               textAlign: TextAlign.center,
